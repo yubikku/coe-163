@@ -100,26 +100,12 @@ void mmm_blocked(float **A, float **B, float **C, int n, int N) {
         }
     }
 }
-
-int main() {
-    int n = 800;
-    int N = 16;
-    int trials = 30;
-
-    float **A = allocate_matrix(n);
-    float **B = allocate_matrix(n);
-    float **C = allocate_matrix(n);
-
-    fill_random(A,n);
-    fill_random(B,n);
+void part1(float **A, float **B, float **C, int trials, int n){
 
     double start, end, time, total = 0;
-
-    //for(int x=0; x<)
-
+    printf("ORDERING: IJK\n");
     for(int t=0; t<trials; t++) {
         zero_matrix(C,n);
-
         get_walltime(&start);
         mmm_ijk(A,B,C,n);
         get_walltime(&end);
@@ -129,6 +115,106 @@ int main() {
         //printf("Trial %i: %f sec\n", t+1, time);
         printf("%f\n",time);
     }
-
     printf("Average runtime: %f sec\n", total/trials);
+    printf("\nORDERING: IKJ\n");
+    for(int t=0; t<trials; t++) {
+        zero_matrix(C,n);
+        get_walltime(&start);
+        mmm_ikj(A,B,C,n);
+        get_walltime(&end);
+
+        time = end-start;
+        total += (end-start);
+        //printf("Trial %i: %f sec\n", t+1, time);
+        printf("%f\n",time);
+    }
+    printf("Average runtime: %f sec\n", total/trials);
+    printf("\nORDERING: JIK\n");
+    for(int t=0; t<trials; t++) {
+        zero_matrix(C,n);
+        get_walltime(&start);
+        mmm_jik(A,B,C,n);
+        get_walltime(&end);
+
+        time = end-start;
+        total += (end-start);
+        //printf("Trial %i: %f sec\n", t+1, time);
+        printf("%f\n",time);
+    }
+    printf("Average runtime: %f sec\n", total/trials);
+    printf("\nORDERING: JKI\n");
+    for(int t=0; t<trials; t++) {
+
+        zero_matrix(C,n);
+        get_walltime(&start);
+        mmm_jki(A,B,C,n);
+        get_walltime(&end);
+
+        time = end-start;
+        total += (end-start);
+        //printf("Trial %i: %f sec\n", t+1, time);
+        printf("%f\n",time);
+    }
+    printf("Average runtime: %f sec\n", total/trials);
+    
+    printf("\nORDERING: KIJ\n");
+    for(int t=0; t<trials; t++) {
+        zero_matrix(C,n);
+        get_walltime(&start);
+        mmm_kij(A,B,C,n);
+        get_walltime(&end);
+
+        time = end-start;
+        total += (end-start);
+        //printf("Trial %i: %f sec\n", t+1, time);
+        printf("%f\n",time);
+    }
+    printf("Average runtime: %f sec\n", total/trials);
+    printf("\nORDERING: KJI\n");
+    for(int t=0; t<trials; t++) {
+        zero_matrix(C,n);
+        get_walltime(&start);
+        mmm_kji(A,B,C,n);
+        get_walltime(&end);
+
+        time = end-start;
+        total += (end-start);
+        //printf("Trial %i: %f sec\n", t+1, time);
+        printf("%f\n",time);
+    }
+    printf("Average runtime: %f sec\n", total/trials);
+}
+
+void part2(float **A, float **B, float **C, int trials, int n, int N){
+    double start, end, time, total = 0;
+    printf("MMM Blocking IJK\n");
+    for(int t=0; t<trials; t++) {
+        zero_matrix(C,n);
+        get_walltime(&start);
+        mmm_ijk(A,B,C,n);
+        get_walltime(&end);
+
+        time = end-start;
+        total += (end-start);
+        //printf("Trial %i: %f sec\n", t+1, time);
+        printf("%f\n",time);
+    }
+    printf("Average runtime: %f sec\n", total/trials);
+}
+
+int main() {
+    int n = 200;
+    int N = 16;
+    int trials = 30;
+
+    float **A = allocate_matrix(n);
+    float **B = allocate_matrix(n);
+    float **C = allocate_matrix(n);
+
+    fill_random(A,n);
+    fill_random(B,n);
+    
+    part1(A,B,C,trials,n);
+    //part2(A,B,C,trials, n, N);
+
 }
