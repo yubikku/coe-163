@@ -110,14 +110,15 @@ void mmm_blocked(float **A, float **B, float **C, int n, int N) {
 
 
 int main() {
-    int n_max = 1031;
+    int n_max = 1000;
     // int n = 1500;
-    int N = 16;
+    int N = 128;
     int trials = 10;
     
     double start, end, time;
-    printf("MMM ORDERING KIJ:\n");
-    for(int n=1; n<=n_max; n += 10){
+    printf("MMM ORDERING KJI:\n");
+
+    for(int n=0; n<=n_max; n += 16){
         float **A = allocate_matrix(n);
         float **B = allocate_matrix(n);
         float **C = allocate_matrix(n);
@@ -130,7 +131,7 @@ int main() {
         for(int t=0; t<trials; t++) {
             zero_matrix(C,n);
             get_walltime(&start);
-            mmm_kij(A,B,C,n);
+            mmm_kji(A,B,C,n);
             get_walltime(&end);
 
             total += (end-start);
@@ -139,9 +140,17 @@ int main() {
         // Print Run time average per n matrix size
         printf("%f\n", total/trials);
 
+        float checksum = 0.0f;
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                checksum += C[i][j];
+
+        printf("Checksum: %f\n", checksum);
+
         free_matrix(A, n);
         free_matrix(B, n);
         free_matrix(C, n);
+       
     }
 
 }
